@@ -128,38 +128,35 @@ app.put('/:id', (req, res) => {
 
     });
 
-    app.delete('/:id', (req, res) => {
 
-        var id = req.params.id;
+});
+app.delete('/:id', function(req, res) {
 
-        List.findByIdAndRemove(id, (err, listaBorrada) => {
+    var id = req.params.id;
 
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    mensaje: 'Error al borrar lista',
-                    errors: err
-                });
-            }
+    List.findByIdAndRemove(id, (err, listaBorrada) => {
 
-            if (!listaBorrada) {
-                return res.status(400).json({
-                    ok: false,
-                    mensaje: 'No existe una lista con ese id'
-                });
-            }
-
-            res.status(200).json({
-                ok: true,
-                lista: listaBorrada
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                mensaje: 'Error al borrar lista',
+                errors: err
             });
+        }
 
+        if (!listaBorrada) {
+            return res.status(400).json({
+                ok: false,
+                mensaje: 'No existe una lista con ese id'
+            });
+        }
+
+        res.status(200).json({
+            ok: true,
+            lista: listaBorrada
         });
 
-
     });
-
-
 
 
 });
