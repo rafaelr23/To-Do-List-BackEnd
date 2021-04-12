@@ -19,8 +19,6 @@ var List = require("../models/list");
 //===========================================
 //        Obtener toda la lista
 //===========================================
-app.set('view engine', 'ejs');
-
 app.get("/", (req, res, next) => {
 
 
@@ -38,7 +36,7 @@ app.get("/", (req, res, next) => {
             ok: true,
             resultado: lista,
             mensaje: 'Operacion realizada con exito'
-        })
+        });
 
 
     });
@@ -50,33 +48,33 @@ app.get("/", (req, res, next) => {
 //        Crear una nueva lista
 //===========================================
 app.post('/', (req, res) => {
-        var termino = req.body.termino;
+    var termino = req.body.termino;
 
-        var newList = new List({
-            termino: termino,
-            complete: false
-        })
+    var newList = new List({
+        termino: termino,
+        complete: false
+    });
 
 
-        newList.save((error, newTermino) => {
-            if (error) {
-                res.status(400).json({
-                    ok: false,
-                    error: 'Error al cargar tarea'
-                });
-            }
-            res.status(200).json({
-                ok: true,
-                lista: newTermino,
-                mensaje: 'Agregado correctamente'
+    newList.save((error, newTermino) => {
+        if (error) {
+            res.status(400).json({
+                ok: false,
+                error: 'Error al cargar tarea'
             });
+        }
+        res.status(200).json({
+            ok: true,
+            lista: newTermino,
+            mensaje: 'Agregado correctamente'
         });
+    });
 
 
-    })
-    //===========================================
-    //        Actualizar lista
-    //===========================================
+});
+//===========================================
+//        Actualizar lista
+//===========================================
 app.put('/:id', (req, res) => {
 
     var id = req.params.id;
@@ -134,7 +132,7 @@ app.put('/:id', (req, res) => {
 
         var id = req.params.id;
 
-        Usuarios.findByIdAndRemove(id, (err, listaBorrada) => {
+        List.findByIdAndRemove(id, (err, listaBorrada) => {
 
             if (err) {
                 return res.status(500).json({
